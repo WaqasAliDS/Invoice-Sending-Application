@@ -122,17 +122,19 @@ def read_csv(file):
     df = pd.read_csv(file)
     return df
     
+# Function to read PDF file and convert pages to images
 def read_pdf(file):
     images = []
     with file as pdf_file:
         reader = PdfReader(BytesIO(pdf_file.read()))
         for page_num in range(len(reader.pages)):
             page = reader.pages[page_num]
-            # Render page as a PIL image
-            pil_image = page.get_pil_image()
-            # Convert PIL image to bytes
+            # Render page as an image
+            pixmap = page.getPixmap(alpha=False)
+            img = Image.frombytes("RGB", [pixmap.width, pixmap.height], pixmap.samples)
+            # Convert image to bytes
             with BytesIO() as output:
-                pil_image.save(output, format='PNG')
+                img.save(output, format='PNG')
                 image_bytes = output.getvalue()
             images.append(image_bytes)
     return images
