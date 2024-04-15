@@ -124,15 +124,14 @@ def read_csv(file):
     
 def read_pdf(file):
     images = []
-    with open(file, "rb") as pdf_file:  # Open the file using the adjusted path
-        reader = PdfReader(pdf_file)
+    with file as pdf_file:
+        reader = PdfReader(BytesIO(pdf_file.read()))
         for page_num in range(len(reader.pages)):
             page = reader.pages[page_num]
             # Render page as an image
             image_bytes = page.get_pixmap().tobytes()
             images.append(image_bytes)
     return images
-
 
 # Function to open and display the contents of a PDF file
 def display_pdf_content(pdf_file):
