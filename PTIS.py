@@ -121,17 +121,18 @@ def main():
 def read_csv(file):
     df = pd.read_csv(file)
     return df
-
+    
 def read_pdf(file):
     images = []
-    file_path = os.path.join('E:\\Projects\\Payslip splitting', file.name)  # Adjust the file path accordingly
-    with fitz.open(file_path) as pdf_file:  # Open the file using the adjusted path
-        for page_num in range(len(pdf_file)):
-            page = pdf_file.load_page(page_num)
+    with open(file, "rb") as pdf_file:  # Open the file using the adjusted path
+        reader = PdfReader(pdf_file)
+        for page_num in range(len(reader.pages)):
+            page = reader.pages[page_num]
             # Render page as an image
             image_bytes = page.get_pixmap().tobytes()
             images.append(image_bytes)
     return images
+
 
 # Function to open and display the contents of a PDF file
 def display_pdf_content(pdf_file):
