@@ -81,7 +81,7 @@ def sent_email(receiver, app_password, sender_email, pdf_file_path, employee_nam
 
 # Define Streamlit UI
 def main():
-    st.title("Interactive Salary Payslip Emailer")
+    st.title("PTIS Invoice Sending Application")
     st.sidebar.title("Enter Credentials")
 
     # Get sender email and app password from user input
