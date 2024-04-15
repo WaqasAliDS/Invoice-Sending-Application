@@ -125,18 +125,31 @@ def read_csv(file):
 # Function to read PDF file and convert pages to images
 def read_pdf(file):
     images = []
-    with file as pdf_file:
-        reader = PdfReader(BytesIO(pdf_file.read()))
-        for page_num in range(len(reader.pages)):
-            page = reader.pages[page_num]
-            # Render page as an image
-            pixmap = page.getPixmap(alpha=False)
-            img = Image.frombytes("RGB", [pixmap.width, pixmap.height], pixmap.samples)
-            # Convert image to bytes
-            with BytesIO() as output:
-                img.save(output, format='PNG')
-                image_bytes = output.getvalue()
+    # Open the PDF file
+    pdf_document = fitz.open(file)
+    
+    # Iterate through each page
+    for page_number in range(len(pdf_document)):
+        page = pdf_document.load_page(page_number)
+        
+        # Extract images from the page
+        img_list = page.get_images(full=True)
+        
+        # Iterate through each image on the page
+        for img_index, img_info in enumerate(img_list):
+            # Get the XREF of the image
+            xref = img_info[0]
+            
+            # Extract the image bytes
+            base_image = pdf_document.extract_image(xref)
+            image_bytes = base_image["image"]
+            
+            # Append the image bytes to the list
             images.append(image_bytes)
+    
+    # Close the PDF document
+    pdf_document.close()
+    
     return images
 
 # Function to open and display the contents of a PDF file
