@@ -126,7 +126,7 @@ def read_csv(file):
 def read_pdf(pdf_file):
     images = []
     # Open the PDF file using BytesIO
-    pdf_content = BytesIO(pdf_file.getvalue())
+    pdf_content = BytesIO(pdf_file.read())
     pdf_document = fitz.open(pdf_content)
     
     # Iterate through each page
