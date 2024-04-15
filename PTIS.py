@@ -128,8 +128,12 @@ def read_pdf(file):
         reader = PdfReader(BytesIO(pdf_file.read()))
         for page_num in range(len(reader.pages)):
             page = reader.pages[page_num]
-            # Render page as an image
-            image_bytes = page.get_pixmap().tobytes()
+            # Render page as a PIL image
+            pil_image = page.get_pil_image()
+            # Convert PIL image to bytes
+            with BytesIO() as output:
+                pil_image.save(output, format='PNG')
+                image_bytes = output.getvalue()
             images.append(image_bytes)
     return images
 
