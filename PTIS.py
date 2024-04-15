@@ -196,9 +196,3 @@ def sent_pdf(df, pdf_file, sender_email, app_password):
 if __name__ == "__main__":
     main()
 
-
-
-
-# cd C:\Users\WAQSA\anaconda3\Scripts
-# streamlit run "E:\Projects\Payslip splitting\test8.py"
-# icbo qmnq cflr ixub
