@@ -123,10 +123,10 @@ def read_csv(file):
     return df
     
 # Function to read PDF file and convert pages to images
-def read_pdf(file):
+def read_pdf(pdf_file):
     images = []
     # Open the PDF file
-    pdf_document = fitz.open(file)
+    pdf_document = fitz.open(pdf_file)
     
     # Iterate through each page
     for page_number in range(len(pdf_document)):
